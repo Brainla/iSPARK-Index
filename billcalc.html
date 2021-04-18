@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id"
+        content="394547647251-7f6ner6gbhsh184n06277e2smqcg8kb3.apps.googleusercontent.com">
+    <title>iSpark | BillCalculation</title>
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="assets/vendor/icofont/icofont.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery.convform.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.convform.css">
+    <link rel="stylesheet" type="text/css" href="dist/jquery.convform.css">
+    <link rel="stylesheet" href="assets/css/demo.css">
+    <link rel="stylesheet" href="css/demo.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <style>
+       .container {
+            /*opacity: 0.9;*/
+            /*background: transparent;*/
+            background-image: url('assets/images/green.png'); background-repeat: all;
+        }
+
+        table,
+        th,
+        td {
+            border: 2px solid black;
+        }
+
+        #spanstyle {
+            font-weight: 900;
+            color: rgb(31, 46, 31);
+        }
+
+        body
+
+        /*{
+        background: url("../img/i1.jpg");
+              background-repeat: no-repeat;
+              background-position: center center;
+              background-size: cover;
+        background-attachment: fixed; 
+        opacity: 1;
+        }*/
+        .chat_icon {
+            position: fixed;
+            right: 30px;
+            bottom: 0;
+            font-size: 80px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .chat_box {
+            position: fixed;
+            right: 20px;
+            bottom: 100px;
+            width: 300px;
+            height: 80vh;
+            background: #dedede;
+            z-index: 1000;
+            transition: all 0.3s ease-out;
+            transform: scaleY(0);
+        }
+
+        .chat_box.active {
+            transform: scaleY(1);
+        }
+
+        .conv-form-wrapper textarea {
+            height: 50px;
+            resize: none;
+        }
+
+        #messages {
+            padding: 20px;
+        }
+
+        .icon_color:hover {
+            color: green;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px greenyellow;
+        }
+
+        .btn-secondary {
+            background-color: #35880f;
+            color: white;
+        }
+
+        p.c {
+            white-space: pre;
+        }
+
+        @media only screen and (max-width: 3500px) {
+            .fa-bars {
+                display: none;
+            }
+
+            #v-pills-tab {
+                display: block;
+                height: 100vh;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            #v-pills-tab {
+                display: none;
+            }
+
+            .fa-bars {
+                display: block;
+            }
+        }
+      
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+table{
+    border: none; 
+}
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#calculate").click(function() {
+            if ($("#inputunits").val() !== '' || $("#inputunits").val() >0) {
+                var ebAmount = 0;
+                var tariff = 0;
+                var ebUnits = 0;
+                ebUnits = parseInt($("#inputunits").val());
+                if (ebUnits > 0 && ebUnits <= 100) {
+                    ebAmount = 20 + (ebUnits * 1.5);
+                    tariff = 0;
+                } else if (ebUnits <= 200) {
+                    ebAmount = 20 + ((ebUnits - 100) * 1.5);
+                    tariff = ebAmount;
+                } else if (ebUnits <= 500) {
+                    ebAmount = 30 + 100 * 2 + (ebUnits - 200) * 3;
+                    tariff = ebAmount;
+                } else if (ebUnits > 500) {
+                    ebAmount = 50 + 100 * 3.5 + 300 * 4.6 + (ebUnits - 500) * 6.6;
+                    tariff = ebAmount;
+                }
+                $("#info").html("Your EB Bill Amount: <b style='background-color: #FFFF00; color:red;'>&#8377; " + tariff.toFixed(1) + "</b>");
+            } else {
+                $("#info").html("<b style='background-color: #FFFF00; color:red;'>Please Enter a Valid Unit!</b>");
+            }
+        });
+    });
+    </script>
+</head>
+
+<body style=" background-image: url('images/green.png'); background-repeat: all;">
+
+
+    <!-- Trigger/Open The Modal -->
+    
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+    
+      <!-- Modal content -->
+      <div class="modal-content" >
+        <span class="close">&times;</span>
+        <img src="imp.png" class="w3-round"  alt="Norway"> 
+
+        <p>Some text in the Modal..</p>
+
+      </div>
+    
+    </div>
+
+    <div class="chat_icon">
+        <i class="fa fa-reddit icon_color" style="font-size:48px" data-toggle="tooltip" data-placement="left"
+            title="I am a chatbot"></i>
+    </div>
+
+    <div id="chat" class="chat_box">
+        <div class="conv-form-wrapper">
+            <form action="" method="GET">
+                <select name="programmer" data-conv-question="Please select the BHK">
+                    <option value="one">1</option>
+                    <option value="two">2</option>
+                    <option value="three">3</option>
+                </select>
+                <div data-conv-fork="programmer">
+                    <div data-conv-case="one">
+                        <input type="text"
+                            data-conv-question="Exciting My house is also 1 BHK and my bill amount is Rs 450-499 only per month"
+                            data-no-answer="true">
+                    </div>
+                    <div data-conv-case="two">
+                        <input type="text"
+                            data-conv-question="Exciting My house is also 2 BHK and my bill amount is Rs 850-899 only per month"
+                            data-no-answer="true">
+                    </div>
+                    <div data-conv-case="three">
+                        <input type="text"
+                            data-conv-question="Exciting My house is also 3 BHK and my bill amount is Rs 1200-1300 only per month"
+                            data-no-answer="true">
+                    </div>
+                </div>
+
+                <select name="programmer" data-conv-question="I think you have the same cheque right">
+                    <option value="yes">yes</option>
+                    <option value="no">no</option>
+
+                </select>
+                <div data-conv-fork="programmer">
+                    <div data-conv-case="yes"></div>
+                    <input type="text" data-conv-question="Well good let’s see how far we can save more click on audit">
+                </div>
+                <div data-conv-case="no">
+                    <input type="text"
+                        data-conv-question="No Worries Let us find the way to fix your bills click on audit.">
+                </div>
+
+        </div>
+
+        </form>
+    </div>
+    </div>
+    <!-- Button trigger modal -->
+
+    <nav class="navbar navbar-light container-fluid bg-light justify-content-between border-bottom">
+        <a class="navbar-brand  px-4 text-success lead" href="index.html">
+            <h2><b>iSpark</b></h2>
+        </a>
+        <ul class="nav nav-tabs" id="ulnav">
+            <li class="dropdown">
+                <a id="lk1" href="#" id="username-btn"><button class="btn btn-light" onclick="user()"
+                        id="username-btn"></button><span class="caret"></span></a>
+                <ul class="dropdown-menu" id="lk1ul">
+                    <li><a href="#" onclick="dash()" class="text-success"><i class="material-icons"></i>Dashboard</a>
+                    </li>
+                    <li><a href="#" onclick="signOut()" class="text-success"><i
+                                class="material-icons text-danger"></i>Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+        <i class="fa fa-bars" onclick="show();"></i>
+    </nav>
+
+
+    <!-- Modal -->
+    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-style" action="/edituserprofile" method="POST">
+                        <div class="form-group">
+                            <label for="editname">Name</label>
+                            <input type="text" class="form-control" id="editname" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="edithouse">House No. Building Name</label>
+                            <input type="text" class="form-control" id="edithouse" placeholder="House No.">
+                        </div>
+                        <div class="form-group">
+                            <label for="editcity">City</label>
+                            <input type="text" class="form-control" id="editcity" placeholder="City">
+                        </div>
+                        <div class="form-group">
+                            <label for="editbhk">BHK</label>
+                            <input type="text" class="form-control" id="editbhk" placeholder="BHK">
+                        </div>
+                        <div class="form-group">
+                            <label for="editphase">Phase</label>
+                            <input type="text" class="form-control" id="editphase" placeholder="Phase">
+                        </div>
+                        <div class="form-group">
+                            <label for="editprof">Profession</label>
+                            <input type="text" class="form-control" id="editprof" placeholder="Profession">
+                        </div>
+                        <div class="form-group">
+                            <label for="editmobile">Mobile No.</label>
+                            <input type="number" class="form-control" id="editmobile" placeholder="Mobile No.">
+                        </div>
+                        <div class="form-group">
+                            <label for="area">Area Street Name</label>
+                            <input type="text" class="form-control" id="editarea" placeholder="Area Street Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="editconn">Connection</label>
+                            <input type="text" class="form-control" id="editconnection" placeholder="Connection">
+                        </div>
+                        <div class="form-group">
+                            <label for="edittype">Type</label>
+                            <input type="text" class="form-control" id="edittype" placeholder="Type">
+                        </div>
+                    </form>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="editchange()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="row">
+        <div class="nav col-md-2 flex-column nav-pills px-4 bg-success" id="v-pills-tab" role="tablist"
+            aria-orientation="vertical" style="background-color: whitesmoke;">
+            
+            <h5><a class="nav-link text-light" href="dashboard.html"><i class="fa fa-home" aria-hidden="true"></i>
+                &nbsp; Dashboard</a></h5>
+            <div class="dropdown-divider"></div>
+            <h5><a class="nav-link text-light" href="profile.html"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;
+                    Profile</a></h5>
+            <div class="dropdown-divider"></div>
+            <h5><a class="nav-link text-light" href="table.html"><i class="fa fa-tachometer" aria-hidden="true"></i>
+                    &nbsp; Power Audit</a></h5>
+            <div class="dropdown-divider"></div>
+            <h5><a class="nav-link text-light" href="instruction.html"><i class="fa fa-lightbulb-o"
+                        aria-hidden="true"></i> &nbsp; Instruction</a></h5>
+            <div class="dropdown-divider"></div>
+            <h5><a class="nav-link text-light" href="power.html"><i class="fa fa-arrow-left"></i> &nbsp; Previous
+                    Consumption</a></h5>
+            <div class="dropdown-divider"></div>
+            <h5><a class="nav-link text-light" href="billcalc.html"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                &nbsp; Bill Calculator</a></h5>
+            <div class="dropdown-divider"></div>
+            <h5><a class="nav-link text-light" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-share" aria-hidden="true"></i> &nbsp;Share</a></h5>
+            <div class="dropdown-divider"></div>
+            <h5><a class="nav-link text-light" onclick="signOut()" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> &nbsp; Logout</a></h5>
+            <div class="dropdown-divider"></div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Share with friends over email</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/mail" method="POST">
+                                <input type="text" id="mail" name="mail" class="form-control"
+                                    placeholder="Enter recipient ID( separate by commas if many )">
+                                <br>
+                                <input type="text" id="subj" name="subj" class="form-control" value="From team iSpark"
+                                    readonly>
+                                <br>
+                                <textarea id="content" name="content" cols="30" rows="5" class="form-control"
+                                    value="Check out this iSpark energy audit system app"
+                                    readonly>Check out this iSpark energy audit system app</textarea>
+                                <br>
+
+                                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                                <button type="submit" id="submit" name="submit" class="btn btn-success m-3">Send
+                                    mail</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        
+
+        <div class="container col-md-10">
+
+            <br>
+            <table border='0' height='75%' width='100%' >
+                <tr>
+                <td align='middle'style="border: 0px ;"> 
+                <p align="center">
+                <font face="'Times New Roman', Times, Serif" size="4px" color="black"><b>TARIFF CALCULATOR</b></font><br/>
+                </p>
+                <center>
+                <table align="center" bgcolor="black" border="0" cellspacing="0" cellpadding="1" width="470px">
+                <tr>
+                <td>
+                <table bgcolor="white" style="border-bottom: 1px solid #CFCFF4 !important;" cellspacing="0" cellpadding="3" width="100%">
+                <tr>
+                <td align="center" style="font-family: 'Times New Roman', Times, Serif; font-size: 14px;">
+                <p><b>For Domestic Usage Only</b></p>
+                <p>Units Consumed:
+                    <div class="row m-3"><input type="number" id="inputunits" class='col-6' name="inputunits" min="1" step="1" style="width: 90px;" autofocus required />
+                <input type="button" class="btn btn-success col-6" style="background-color:white; color:green;" id="calculate"  value="Calculate" /></div>
+                
+                </p>
+                <p>
+                <div id="info"></div>
+                </p>
+                </td>
+                </tr>
+                </table>
+                </td>
+                </tr>
+                <tr>
+                <td>
+                <table summary="TANGEDCO May 2016 Tariffs" bgcolor="white" border="1" bordercolor="black" cellspacing="0" cellpadding="5" width="100%" style="font-family: 'Times New Roman', Times, Serif; font-size: 14px;">
+                    <tr style="text-align: center">
+                        <th rowspan="2" style="text-align: center; border-right: 1px solid white !important;">Units</th><th colspan="2" style="text-align: center; border-right: 1px solid white !important; border-bottom: 1px solid white !important;">Tariff Charges</th><th rowspan="2" style="text-align: center; border-right: 1px solid white !important;">From</th><th rowspan="2" style="text-align: center; border-right: 1px solid white !important;">To</th><th rowspan="2">Cost</th>
+                    </tr>
+                    <tr style="text-align: center; font-weight: bold">
+                        <td style="text-align: center; border-right: 1px solid white !important;">Fixed</td>
+                        <td style="text-align: center; border-right: 1px solid white !important;">Subsidy</td>
+                    </tr>
+                    <tr style="text-align: center; border-top: 1px solid white !important;">
+                        <td style="text-align: center; border-right: 1px solid white !important;">&#8804; 100</td><td style="text-align: center; border-right: 1px solid white !important;">&#8377; 0</td><td style="text-align: center; border-right: 1px solid white !important;">&#8377; 150</td><td style="text-align: center; border-right: 1px solid white !important;">1</td><td style="text-align: center; border-right: 1px solid white !important;">100</td><td>&#8377; 1.50</td>
+                    </tr>
+                    <tr style="text-align: center; border-top: 1px solid white !important;">
+                        <td style="text-align: center; border-right: 1px solid white !important;">&#8804; 200</td><td style="text-align: center; border-right: 1px solid white !important;">&#8377; 20</td><td style="text-align: center; border-right: 1px solid white !important;">&#8377; 150</td><td style="text-align: center; border-right: 1px solid white !important;">1</td><td style="text-align: center; border-right: 1px solid white !important;">200</td><td>&#8377; 1.50</td>
+                    </tr>
+                    <tr style="text-align: center; border-top: 1px solid white !important;">
+                        <td rowspan="3" style="text-align: center; border-right: 1px solid white !important;">&#8804; 500</td><td rowspan="3" style="text-align: center; border-right: 1px solid white !important;">&#8377; 30</td><td rowspan="3" style="text-align: center; border-right: 1px solid white !important;">&#8377; 150</td><td style="text-align: center; border-right: 1px solid white !important;">1</td><td style="text-align: center; border-right: 1px solid white !important;">100</td><td>&#8377; 1.50</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="text-align: center; border-right: 1px solid white !important;">101</td><td style="text-align: center; border-right: 1px solid white !important;">200</td><td>&#8377; 2.00</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="text-align: center; border-right: 1px solid white !important;">201</td><td style="text-align: center; border-right: 1px solid white !important;">500</td><td>&#8377; 3.00</td>
+                    </tr>
+                    <tr style="text-align: center; border-top: 1px solid white !important;">
+                        <td rowspan="4" style="text-align: center; border-right: 1px solid white !important;">&gt; 500</td><td rowspan="4" style="text-align: center; border-right: 1px solid white !important;">&#8377; 50</td><td rowspan="4" style="text-align: center; border-right: 1px solid white !important;">&#8377; 150</td><td style="text-align: center; border-right: 1px solid white !important;">1</td><td style="text-align: center; border-right: 1px solid white !important;">100</td><td>&#8377; 1.50</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="text-align: center; border-right: 1px solid white !important;">101</td><td style="text-align: center; border-right: 1px solid white !important;">200</td><td>&#8377; 3.50</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="text-align: center; border-right: 1px solid white !important;">201</td><td style="text-align: center; border-right: 1px solid white !important;">500</td><td>&#8377; 4.60</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td colspan="2" style="text-align: center; border-right: 1px solid white !important;">&gt; 500</td><td>&#8377; 6.60</td>
+                    </tr>
+                </table>
+                </td>
+                </tr>
+                </table>
+                </center>
+                </td>
+                </tr>
+                </table>
+                </body>
+        </div>
+
+    </div>
+
+    <!--      </div>
+    </main> -->
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <!--chatbot-->
+    <script type="text/javascript" src="jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="dist/autosize.min.js"></script>
+    <script type="text/javascript" src="dist/jquery.convform.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<script>
+   var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        console.log(gapi.auth2.getAuthInstance());
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+
+        }); auth2.disconnect();
+        window.location.href = '/login.html';
+    }
+    function onLoad() {
+        gapi.load('auth2', function () {
+            gapi.auth2.init();
+        });
+
+    }
+
+    const editprofile = () => {
+        // document.getElementById('editname').value = document.getElementById("Name").innerHTML
+        // document.getElementById('edithouse').value = document.getElementById("address").innerHTML
+        // document.getElementById('editmobile').value = document.getElementById("mobile").innerHTML
+        // document.getElementById('editcity').value = document.getElementById("city").innerHTML
+        // document.getElementById('editbhk').value = document.getElementById("bhk").innerHTML
+        // document.getElementById('editphase').value = document.getElementById("phase").innerHTML
+        // document.getElementById('editprof').value = document.getElementById("prof").innerHTML
+        // document.getElementById('editarea').value = document.getElementById("area").innerHTML
+        // document.getElementById('editconnection').value = document.getElementById("conn").innerHTML
+        // document.getElementById('edittype').value = document.getElementById("type").innerHTML
+ window.location.href = '/edit.html';
+
+
+
+    }
+
+    const editchange = () => {
+        event.preventDefault();
+        var posting = $.post('/editprofile', {
+            name: $('#editname').val(),
+            mobile: $('#editmobile').val(),
+            address: $('#edithouse').val(),
+            bhk: $('#editbhk').val(),
+            conn: $('#editconnection').val(),
+            type: $('#edittype').val(),
+            phase: $('#editphase').val(),
+            area: $('#editarea').val(),
+            city: $('#editcity').val(),
+            prof: $('#editprof').val(),
+        });
+        posting.done(function (data) {
+            alert(data)
+            if (data == "ok") {
+                window.location.href = '/login.html';
+            }
+        })
+    }
+
+    window.onload = function (event) {
+        event.preventDefault();
+        onLoad();
+        // alert("Called");
+        var posting = $.post('/profile.html');
+        posting.done(function (data) {
+            console.log(data);
+            var tables = data.table;
+            // alert(data.Name);
+            $('#Name').html(data.Name);
+            $('#mobile').html(data.mobile);
+            $('#address').html(data.address);
+            $('#maps').html(data.maps);
+            $('#bhk').html(data.bhk);
+            $('#conn').html(data.conn);
+            $('#phase').html(data.phase);
+            $('#type').html(data.type);
+            $('#area').html(data.area);
+            $('#city').html(data.city);
+            $('#prof').html(data.prof);
+            $('#hobby').html(data.hobby);
+            $('#others').html(data.others);
+            $('#sqrt').html(data.sqrt);
+            $('#src').html(data.src);
+            $('#sepsup').html(data.sepsup);
+            $('#htlt').html(data.htlt);
+            $('#traffic').html(data.traffic);
+            $('#domain').html(data.domain);
+            $('#urban').html(data.urban);
+            $('#commercial').html(data.commercial);
+            $('#bill').html(data.bill);
+        //      domain: session.domain,
+        // urban: session.urban,
+        // commericial: session.commericial,
+        // bill: session.bill
+            // $('#zone').html(tables[tables.length - 1]["zone"]);
+            var zone = tables[tables.length - 1]["zone"];
+            if (zone == "Green") {
+                $('#zone').html('<i class="fa fa-trophy fa-2x" aria-hidden="true" style="color:green;"></i>')
+            }
+            else if (zone == "Orange") {
+                $('#zone').html('<i class="fa fa-trophy fa-2x" aria-hidden="true" style="color:yellow;"></i>')
+            }
+            else if (zone == "Red") {
+                $('#zone').html('<i class="fa fa-trophy fa-2x" aria-hidden="true" style="color:red;"></i>')
+            }
+            // if (data == "Login success!")
+            //     window.location.href = '/index.html';
+            // else if (data == "Login failed!")
+            //     window.location.href = '/index.html';
+            // else
+            //     window.location.href = '/404.html';
+        });
+    }
+    function next() {
+        window.location.href = '/table.html';
+    }
+    function instruction() {
+        window.location.href = '/instruction.html';
+    }
+
+
+    $(document).ready(function () {
+        $('.chat_icon').click(function (event) {
+            $('.chat_box').toggleClass('active');
+        });
+
+        $('.conv-form-wrapper').convform({ selectInputStyle: 'disable' });
+    });
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        console.log(gapi.auth2.getAuthInstance());
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+
+        });
+        auth2.disconnect();
+        window.location.href = '/login.html';
+    }
+    function show() {
+        var display_check = document.getElementById('v-pills-tab').style.display;
+        if (display_check == "block") {
+            display_check = document.getElementById('v-pills-tab').style.display = "none";
+        }
+        else {
+            display_check = document.getElementById('v-pills-tab').style.display = "block";
+        }
+
+    }
+
+
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        console.log(gapi.auth2.getAuthInstance());
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+
+        });
+        auth2.disconnect();
+        window.location.href = '/login.html';
+    }
+
+    function dash() {
+        window.location.href = '/dashboard.html';
+    }
+
+    function user() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        console.log(gapi.auth2.getAuthInstance());
+        //code for opening dropdown
+        jQuery('#lk1ul').toggle();
+    }
+
+</script>
+
+</html>
